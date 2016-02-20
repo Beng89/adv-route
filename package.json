@@ -2,6 +2,11 @@
   "name": "adv-route",
   "version": "1.0.0",
   "description": "Provides a framework for easily defining express routes and their associated controller.",
+  "keywords": [
+      "express",
+      "routes",
+      "controller"
+  ],
   "engines": {
     "node": ">=4.0.0"
   },
