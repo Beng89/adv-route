@@ -1,0 +1,23 @@
+# starts with a comment
+
+# the following line contains a comment in the route # comments inside of comments woohoo
+GET     /#/see            itoldyou.so
+
+POST    /user/:name       controllers/user.addOne       # tailing comments shouldn't cause a problem
+POST    /users            controllers/user.addGroup
+
+    # this is an indented comment
+  # this comment is slightly less indented
+                  # this comment is really indented
+                  
+# this is one comment
+# this is another comment
+
+PUT     /user/:name       controllers/user.addOrReplaceOne # this is a comment
+PUT     /users            controllers/user.addOrReplaceGroup
+
+DELETE  /user/:name       controllers/users.deleteOne
+DELETE  /user             controllers/users.deleteRange
+
+
+# ends with a comment

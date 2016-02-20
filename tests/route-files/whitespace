@@ -1,0 +1,8 @@
+POST    /user/:name       controllers/user.addOne
+POST    /users            controllers/user.addGroup
+
+PUT     /user/:name       controllers/user.addOrReplaceOne
+PUT     /users            controllers/user.addOrReplaceGroup
+
+DELETE  /user/:name       controllers/users.deleteOne
+DELETE  /user             controllers/users.deleteRange
