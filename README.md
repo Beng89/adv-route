@@ -53,7 +53,8 @@ ___
 
 ## Future Ideas
 - allow paths to use regular expressions
-
+- watch controller files and reload routes
+- Other Ideas? Open an issue!
 ___
 
 ## LICENSE
