@@ -19,7 +19,7 @@
     "type:": "git",
     "url": "https://github.com/beng89/adv-route.git"
   },
-  "readme": "README.md",
+  "readme": "https://github.com/beng89/adv-route/blob/master/README.md",
   "author": "Ben Goltz",
   "license": "MIT",
   "dependencies": {
