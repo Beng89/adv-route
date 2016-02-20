@@ -175,7 +175,7 @@ describe("fileParser", function() {
   it("should pass an exception in the callback if one of the routes fails to parse", function(done) {
     function cb(err, routes) {
       should.exist(err)
-      should.equal(err.message, "line 0: incorrect number of tokens 13; routes require a method, a path and a controller")
+      should.equal(err.message, "line 1: incorrect number of tokens 13; routes require a method, a path and a controller")
       done()
     }
     function test() {
