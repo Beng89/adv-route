@@ -1,6 +1,7 @@
 var mocha = require("mocha")
 var should = require("chai").should()
 var express = require("express")
+var module = require("..")
 
 describe("routeParser", function() {
   var parser = require("../lib/route-parser")

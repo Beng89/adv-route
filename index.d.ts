@@ -50,7 +50,7 @@ export function fileParser(path: string): Array<Route>;
 /**
  * Parses the string into a route
  */
-export function routerParser(string: string): Route;
+export function routeParser(string: string): Route;
 
 /**
  * Crates an express Application from the provided file
