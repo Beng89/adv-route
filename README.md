@@ -51,6 +51,12 @@ ___
 
 ___
 
+## Typescript definitions
+
+```
+typings install --save file:/node_modules/adv-route
+___
+
 ## Future Ideas
 - allow paths to use regular expressions
 - watch controller files and reload routes
