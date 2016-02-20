@@ -55,6 +55,7 @@ ___
 
 ```
 typings install --save file:/node_modules/adv-route
+```
 ___
 
 ## Future Ideas
