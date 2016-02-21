@@ -1,15 +1,13 @@
 {
   "name": "adv-route",
-  "version": "1.0.8",
-  "description": "Provides a framework for easily defining express routes and their associated controller.",
+  "version": "1.1.0",
+  "description": "An easy to use module for seperating express application, routing and server logic.",
   "keywords": [
       "express",
       "routes",
-      "controller"
+      "controller",
+      "definition"
   ],
-  "engines": {
-    "node": ">=4.0.0"
-  },
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -23,6 +21,10 @@
   "author": "Ben Goltz",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.13.4"
+    "express": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
   }
 }
