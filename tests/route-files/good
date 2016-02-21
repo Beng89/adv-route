@@ -1,3 +1,0 @@
-get   /something      special
-post  /dosomething    class.method
-put   /morestuff      @stuff.explode

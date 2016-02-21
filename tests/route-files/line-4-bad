@@ -1,0 +1,6 @@
+get  /less    tests/controllers/less 
+post  /more    tests/controllers/more.evenMore
+
+do something here that will cause the parser to fail so we can test the line number
+
+delete  /enough  tests/controllers/enough

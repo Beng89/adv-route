@@ -1,0 +1,3 @@
+get  /less    tests/controllers/less 
+post  /more    tests/controllers/more.evenMore
+delete  /enough  tests/controllers/enough

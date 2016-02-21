@@ -1,3 +1,0 @@
-get  /less    tests/controllers/less
-get  /more    tests/controllers/more
-get  /enough  tests/controllers/enough
