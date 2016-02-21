@@ -289,7 +289,7 @@ post  logout    controllers/api/v1/logout               # handle logout requests
 
 ### Application Logic
 
-for the sake of simplicity the logic for the controllers is not shown but if
+for the sake of simplicity, the logic for the controllers is not shown but if
 this were a real site you would expect to find said logic at their respective
 locations.
 
