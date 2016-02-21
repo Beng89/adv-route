@@ -1,3 +1,3 @@
-module.exports = function more() {
-  
+module.exports = {
+  evenMore: function() {}
 }
