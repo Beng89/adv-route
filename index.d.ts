@@ -11,7 +11,7 @@ export interface AppCallback {
  * Callback for a router creation method
  */
 export interface RouterCallback {
-  (err?: Error, app?: express.Router)
+  (err?: Error, app?: express.Router): void;
 }
 
 /**
@@ -45,12 +45,12 @@ export class Route {
 /**
  * Parses the specified file into an array of routes
  */
-export function fileParser(path: string): Array<Route>;
+export function parseFile(path: string): Array<Route>;
 
 /**
  * Parses the string into a route
  */
-export function routeParser(string: string): Route;
+export function parseRoute(string: string): Route;
 
 /**
  * Crates an express Application from the provided file

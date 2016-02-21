@@ -1,13 +1,13 @@
 var createExpressApp = require("./lib/create-express-app")
 var createExpressRouter = require("./lib/create-express-router")
-var fileParser = require("./lib/file-parser")
-var route = require("./lib/route")
-var routeParser = require("./lib/route-parser")
+var parseFile = require("./lib/parse-file")
+var Route = require("./lib/route")
+var parseRoute = require("./lib/parse-route")
 
 module.exports = {
   createExpressApp,
   createExpressRouter,
-  fileParser,
-  route,
-  routeParser
+  parseFile,
+  Route,
+  parseRoute
 }
