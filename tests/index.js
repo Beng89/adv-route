@@ -7,12 +7,17 @@ describe("routeParser", function() {
   var parser = require("../lib/route-parser")
   
   it("should throw an exception when there are not enough tokens", function(done) {
-    should.throw(parser)
+    should.throw(parser.bind(null, "only two"))
+    done()
+  })
+  
+  it("should throw an exception when there are too many tokens", function(done) {
+    should.throw(parser.bind(null, "get /myroute /test/lots.tokens see what happens when there are too many tokens?"), "incorrect number of tokens 12; routes require a method, a path and a controller")
     done()
   })
   
   it("should append process.cwd() to the controller path by default", function(done) {
-    function test() {
+    should.not.throw(function() {
       var route = parser("get /myroute controller.method")
       
       should.equal(route.method, "get")
@@ -21,13 +26,11 @@ describe("routeParser", function() {
       should.equal(route.target, "method")
       
       done()
-    }
-    
-    should.not.throw(test)
+    })
   })
   
   it("should not append process.cwd() to the controller path when it starts with @", function(done) {
-    function test() {
+    should.not.throw(function() {
       var route = parser("get /myroute @controller.method")
       
       should.equal(route.method, "get")
@@ -36,13 +39,11 @@ describe("routeParser", function() {
       should.equal(route.target, "method")
       
       done()
-    }
-    
-    should.not.throw(test)
+    })
   })
   
   it("should correctly parse all tokens", function(done) {
-    function test() {
+    should.not.throw(function() {
       var route = parser("get /myroute controller.method")
       
       should.equal(route.method, "get")
@@ -51,15 +52,13 @@ describe("routeParser", function() {
       should.equal(route.target, "method")
       
       done()
-    }
-    
-    should.not.throw(test)
+    })
   })
   
   
   
   it("should ignore white space", function(done) {
-    function test() {
+    should.not.throw(function() {
       var route = parser("  get     /myroute controller.method")
       
       should.equal(route.method, "get")
@@ -68,13 +67,11 @@ describe("routeParser", function() {
       should.equal(route.target, "method")
       
       done()
-    }
-    
-    should.not.throw(test)
+    })
   })
   
   it("should succeed when the method token is missing", function(done) {
-    function test() {
+    should.not.throw(function() {
       var route = parser("  get     /myroute controller")
       
       should.equal(route.method, "get")
@@ -83,9 +80,7 @@ describe("routeParser", function() {
       should.not.exist(route.target)
       
       done()
-    }
-    
-    should.not.throw(test)
+    })
   })
 })
 
@@ -95,64 +90,46 @@ describe("route.mount", function() {
   var router = express.Router()
   
   it("should throw an exception while mounting if the controller cannot be resolved", function(done) {
+    // controllers/controller_dne should never exist...
     var route = parser("get /route controllers/controller_dne")
-    
-    function test() {
-      route.mount(router)
-    }
-    
-    should.throw(test, /Cannot find module/)
-    
+    should.throw(route.mount.bind(route, router), /Cannot find module/)
     done()
   })
 
-  it("should throw an exception if the target function doesn\"t exist on the controller", function(done) {
-    var route = parser("get /route tests/controllers/controller-0.test")
-    
-    function test() {
-      route.mount(router)
-      
-      
-    }
-    
-    should.throw(test, "target function test does not exist on controller " + process.cwd() + "/tests/controllers/controller-0")
-    
+  it("should throw an exception if the target function doesn't exist on the controller module", function(done) {
+    var route = parser("get /route tests/controllers/invalid/function-dne.test")
+    should.throw(route.mount.bind(route, router), "target function test does not exist on controller " + process.cwd() + "/tests/controllers/invalid/function-dne")
     done()
   })
   
-  it("should throw an exception if the target function is not a function", function(done) {
-    function mount() {
-      route.mount(router)
-    }
-    
-    var route = parser("get /route tests/controllers/controller-1")
-    should.throw(mount, "controllers must resolve to a function")
-    
-    route = parser("get /route tests/controllers/controller-1.test")
-    should.throw(mount, "controllers must resolve to a function")
-    
+  it("should throw an exception if the target controller module is not a function", function(done) {
+    var route = parser("get /route tests/controllers/invalid/module-not-a-function")
+    should.throw(route.mount.bind(route, router), "controllers must resolve to a function")
+    done()
+  })
+  
+  it("should throw an exception if the target controller module.function is not a function", function(done) {
+    var route = parser("get /route tests/controllers/invalid/module-target-not-a-function.test")
+    should.throw(route.mount.bind(route, router), "controllers must resolve to a function")
     done()
   })
   
   it("should throw an exception when an unsupported method is provided", function(done) {
-    var route = parser("gremlin /route tests/controllers/controller-2.test")
-    function mount() {
-      route.mount(router)
-    }
-    
-    should.throw(mount, "unsupported method gremlin")
-    
+    // gremlin is not a valid REST method so mounting should fail
+    var route = parser("gremlin /route tests/controllers/valid/function.test")
+    should.throw(route.mount.bind(route, router), "unsupported method gremlin")
     done()
   })
   
-  it("should not throw any exceptions if mounting succeeds", function(done) {
-    var route = parser("get /route tests/controllers/controller-2.test")
-    function mount() {
-      route.mount(router)
-    }
-    
-    should.not.throw(mount, "unsupported method bad")
-    
+  it("should not throw any exceptions when mounting a valid module level controller", function(done) {
+    var route = parser("get /route tests/controllers/valid/module")
+    should.not.throw(route.mount.bind(route, router))
+    done()
+  })
+  
+  it("should not throw any exceptions when mounting a valid module.target level contorller", function(done) {
+    var route = parser("get /route/test tests/controllers/valid/function.test")
+    should.not.throw(route.mount.bind(route, router))
     done()
   })
 })
@@ -165,24 +142,8 @@ describe("fileParser", function() {
       should.equal(err.message, "file " + process.cwd() + "/bad_file does not exist")
       done()
     }
-    function test() {
-      fileParser("bad_file", cb)
-    }
     
-    should.not.throw(test)
-  })
-  
-  it("should pass an exception in the callback if one of the routes fails to parse", function(done) {
-    function cb(err, routes) {
-      should.exist(err)
-      should.equal(err.message, "line 1: incorrect number of tokens 13; routes require a method, a path and a controller")
-      done()
-    }
-    function test() {
-      fileParser("tests/route-files/bad", cb)
-    }
-    
-    should.not.throw(test)
+    should.not.throw(fileParser.bind(null, "bad_file", cb))
   })
   
   it("should ignore empty lines", function(done) {
@@ -192,11 +153,8 @@ describe("fileParser", function() {
 
       done()
     }
-    function test() {
-      fileParser("tests/route-files/whitespace", cb)
-    }
     
-    should.not.throw(test)
+    should.not.throw(fileParser.bind(null, "tests/route-files/whitespace", cb))
   })
   
   it("should ignore lines that start with #", function(done) {
@@ -204,15 +162,31 @@ describe("fileParser", function() {
       should.not.exist(err)
       should.equal(routes.length == 7, true)
 
+      done()
+    }
+    
+    should.not.throw(fileParser.bind(null, "tests/route-files/comments", cb))
+  })
+  
+  it("should not ignore routes that contain #", function(done) {
+    function cb(err, routes) {
+      should.not.exist(err)
       should.equal(routes[0].path, '/#/see')
 
       done()
     }
-    function test() {
-      fileParser("tests/route-files/comments", cb)
+    
+    should.not.throw(fileParser.bind(null, "tests/route-files/comments", cb))
+  })
+  
+  it("should report the correct line number that an error occurs on", function(done) {
+    function cb(err, routes) {
+      should.exist(err)
+      should.equal(err.message, "line 4: incorrect number of tokens 17; routes require a method, a path and a controller")
+      done()
     }
     
-    should.not.throw(test)
+    should.not.throw(fileParser.bind(null, "tests/route-files/line-4-bad", cb))
   })
   
   it("should correctly parse a file if it exists", function(done) {
@@ -221,27 +195,24 @@ describe("fileParser", function() {
       should.equal(routes.length == 3, true)
       
       should.equal(routes[0].method, "get")
-      should.equal(routes[0].path, "/something")
-      should.equal(routes[0].controller, process.cwd() + "/special")
+      should.equal(routes[0].path, "/less")
+      should.equal(routes[0].controller, process.cwd() + "/tests/controllers/less")
       should.not.exist(routes[0].target)
       
       should.equal(routes[1].method, "post")
-      should.equal(routes[1].path, "/dosomething")
-      should.equal(routes[1].controller, process.cwd() + "/class")
-      should.equal(routes[1].target, "method")
+      should.equal(routes[1].path, "/more")
+      should.equal(routes[1].controller, process.cwd() + "/tests/controllers/more")
+      should.equal(routes[1].target, "evenMore")
       
-      should.equal(routes[2].method, "put")
-      should.equal(routes[2].path, "/morestuff")
-      should.equal(routes[2].controller, "stuff")
-      should.equal(routes[2].target, "explode")
+      should.equal(routes[2].method, "delete")
+      should.equal(routes[2].path, "/enough")
+      should.equal(routes[2].controller, process.cwd() + "/tests/controllers/enough")
+      should.not.exist(routes[2].target);
       
       done()
     }
-    function test() {
-      fileParser("tests/route-files/good", cb)
-    }
-    
-    should.not.throw(test)
+
+    should.not.throw(fileParser.bind(null, "tests/route-files/valid", cb))
   })
 })
 
@@ -249,7 +220,7 @@ describe("createExpressApp", function() {
   var createExpressApp = require("../lib/create-express-app")
   
   it("should create an express app", function(done) {
-    createExpressApp("tests/route-files/actual", (err, app) => {      
+    createExpressApp("tests/route-files/valid", (err, app) => {      
       should.not.exist(err)
       should.exist(app)
       
@@ -262,7 +233,7 @@ describe("createExpressRouter", function() {
   var createExpressRouter = require("../lib/create-express-router")
   
   it("should create an express app", function(done) {
-    createExpressRouter("tests/route-files/actual", (err, app) => {      
+    createExpressRouter("tests/route-files/valid", (err, app) => {      
       should.not.exist(err)
       should.exist(app)
       
