@@ -1,6 +1,6 @@
 # adv-route
 
-### An easy to use module for seperating express application, routing and server logic.
+### An easy to use module for separating express application, routing and server logic.
 
 ___
 
@@ -34,7 +34,7 @@ ___
 ## The Basics
 
 The goal of adv-route is to provide an easy to use syntax for 
-sementically seperatingapplication, route and server logic. 
+sementically separatingapplication, route and server logic. 
 
 Take the following example:
 
@@ -68,7 +68,7 @@ app.listen(3000, function() {
 Notice how the application logic is directly tied to the routing 
 and server logic? 
 
-adv-route seperates this logic by encapsulating middleware into 
+adv-route separates this logic by encapsulating middleware into 
 controllers and providing a syntax for mapping routes to controllers
 
 With adv-route the above example would look like:
@@ -84,7 +84,7 @@ get   /info   controllers/pages/info
 # any other routes can be easily added here
 ```
 
-### The page logic is then seperated into controller files:
+### The page logic is then separated into controller files:
 
 ```Javascript
 // file: pages/home
