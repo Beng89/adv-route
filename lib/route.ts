@@ -1,28 +1,21 @@
-/**
- * Creates a route
- * @constructor
- * @param {string} method - The route method (ie. GET)
- * @param {string} path - The route path (ie. /myapi/v1/something/awesome)
- * @param {string} controller - The path to the controller (ie. controllers/something)
- * @param {string} target - The controller function (ie. .awesome). if null; the controller is called directly
- */
-module.exports = function Route(method, path, controller, target) {
-  this.method = method.toLocaleLowerCase();
-  this.path = path.toLocaleLowerCase();
-  this.controller = controller
-  this.target = target
- 
-  /**
-   * mounts this route on the provided router
-   * @param {express.Router} router 
-   */
-  this.mount = (router) => {
-    /**
-     * load the controller
-     * @type {Object|Function}
-     */
-    var controller = require(this.controller)
+import { Router } from "express"
 
+export class Route {
+  constructor(method: string, path: string, controller: string, target?: string) {
+    this.method = method
+    this.path = path
+    this.controller = controller
+    this.target = target
+  }
+  
+  method: string
+  path: string
+  controller: string
+  target: string
+  
+  mount(router: Router) {
+    var controller = require(this.controller)
+    
     // if there is a target method, check to see if it exists and replace the original controller with it
     if(this.target) {
       if(!controller.hasOwnProperty(this.target)) {
@@ -35,7 +28,7 @@ module.exports = function Route(method, path, controller, target) {
     if(typeof(controller) != "function") {
       throw new Error("controllers must resolve to a function")
     }
-
+    
     // use a switch (rather than checking for the method) to prevent 
     // unwanted method calls (ie. router.route(this.path, controller) would not be good...)
     switch(this.method) {
