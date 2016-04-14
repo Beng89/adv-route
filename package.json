@@ -8,10 +8,14 @@
       "controller",
       "definition"
   ],
-  "main": "index.js",
+  "main": "bin/index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "mocha tests/index.js"
+    "build": "typings install && tsc",
+    "prestart": "npm run build",
+    "start": "node bin/index.js",
+    "pretest": "npm run build",
+    "test": "mocha tests/index.js",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type:": "git",
@@ -24,6 +28,7 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "chai": "*"
+    "chai": "*",
+    "typescript": "1.8.10"
   }
 }
