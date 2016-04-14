@@ -12,8 +12,8 @@ export function createExpressRouter(path: string, cb: Function) {
       catch(error) {
         return cb(error, null)
       }
-      cb(null, router)
     }
+    cb(null, router)
   }).catch(error => {
     cb(error, null)
   })
