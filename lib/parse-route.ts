@@ -1,4 +1,4 @@
-var Route = require("./route")
+import { Route } from "./route"
 
 // ************* //
 // ** formats ** //
@@ -10,9 +10,9 @@ var Route = require("./route")
 // - compiled => router.$METHOD($PATH, require($CONTROLLER).$METHOD)
 
 
-// *************** //
-// ** examples: ** //
-// *************** //
+// ************** //
+// ** examples ** //
+// ************** //
 
 // GET  /api/v1/accounts        accounts.getAll
 // => router.get("/api/v1/accounts", require("accounts").getAll)
@@ -23,14 +23,7 @@ var Route = require("./route")
 // GET /index.html              pages/homepage
 // => router.get("/index.html", require("pages/homepage))
 
-/**
- * Parses the string to return a route object.
- * @param {string} str - The string to parse
- * @returns {route.Route}
- */
-module.exports = function parseRoute(str) {
-  // replace excessive spaces with a single space before splitting
-  str = str.replace(/^\s+|\s+$/, "").replace(/\s\s+/g, " ")
+export function parseRoute(str: string) {
   var tokens = str.split(" ")
 
   if(tokens.length != 3) {
@@ -44,6 +37,5 @@ module.exports = function parseRoute(str) {
   var controller = tokens[2].split(".")
   
   // controller paths that start with @ will ne interpreted as literals, otherwise the cwd is appended to it
-  
-  return new Route(tokens[0], tokens[1], controller[0][0] == "@" ? controller[0].substr(1) : process.cwd() + "/" + controller[0], controller[1])
+  return new Route(tokens[0], tokens[1], controller[0][0] == "@" ? controller[0].substr(1) : process.cwd() + "/" + controller[0], controller.length > 1 ? controller[1] : null)
 }
