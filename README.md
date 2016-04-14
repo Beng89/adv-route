@@ -145,7 +145,7 @@ ___
 
 - METHOD ROUTE_PATH CONTROLLER_PATH.CONTROLLER_FUNCTION
 
-### Supported REST methods:
+### Supported HTTP methods:
 
 - ALL
 - GET
@@ -278,7 +278,7 @@ all   *           controllers/errors/internal-error       # catch internal serve
 # description: route file for complex-example.com/api/v1
 
 # actively forces requests to have a session (requests without an attached session will be rejected)
-all   **        controllers/session.force   
+all   **        controllers/session.ensure   
 
 get   account   controllers/api/v1/account.details      # gets the user's account details; returns 200 for success or 401 if the user is not logged in
 post  account   controllers/api/v1/account.create       # handle registration requests; returns 200 for success or 409 if the user already exists
