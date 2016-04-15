@@ -8,9 +8,13 @@ ___
 
 - createExpressApp(filepath: string, cb: (err?: Error, app?: express.Application) => void)
   - creates an express application from the specified routefile
+- createExpressAppAsync(path: string): Promise<express.Application>
+  - creates an express application from the specified routefile
 - createExpressRoute(filepath: string, cb: (err? Error, router?: express.Router) => void)
-  - creates an express roouter from the specified routefile
-- parseFile(path: string, cb: (err?: Error, routes?: Array<Route>) => void)
+  - creates an express router from the specified routefile
+- createExpressRouteAsync(path: string): Promise<express.Router>
+  - creates an express router from the specified routefile
+- parseFile(path: string): Promise<Array<Route>>
   - parses a route file into an array of Route objects asynchronously
 - Route(method: string, path: string, controller: string, target?: string)
   - Creates an instance of a route object

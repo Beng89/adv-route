@@ -1,7 +1,7 @@
 {
   "name": "adv-route",
-  "version": "2.0.0",
-  "description": "An easy to use module for seperating express application, routing and server logic.",
+  "version": "2.0.1",
+  "description": "An easy to use module for separating express application, routing and server logic.",
   "keywords": [
       "express",
       "routes",
