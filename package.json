@@ -10,7 +10,7 @@
   ],
   "main": "bin/index.js",
   "scripts": {
-    "build": "typings install && tsc",
+    "build": "tsc",
     "prestart": "npm run build",
     "start": "node bin/index.js",
     "pretest": "npm run build",
@@ -27,8 +27,8 @@
     "express": "*"
   },
   "devDependencies": {
-    "mocha": "*",
-    "chai": "*",
-    "typescript": "1.8.10"
+    "mocha": "3.x",
+    "chai": "4.x",
+    "typescript": "2.x"
   }
 }

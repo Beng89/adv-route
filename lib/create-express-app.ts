@@ -1,7 +1,7 @@
 import * as express from "express"
 import { parseFile } from "./parse-file"
 
-export function createExpressApp(path: string, cb: Function) {
+export function createExpressApp(path: string, cb: Function): void {
   var app = express()
 
   parseFile(path).then((routes) => {
@@ -18,7 +18,7 @@ export function createExpressApp(path: string, cb: Function) {
     cb(error, null)
   })
 }
-export async function createExpressAppAsync(path: string) {
+export async function createExpressAppAsync(path: string): Promise<express.Server> {
   var app = express()
   
   var routes = await parseFile(path)
