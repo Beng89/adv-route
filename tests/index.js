@@ -187,7 +187,7 @@ describe("parseFile", function () {
     should.not.throw(() => {
       parseFile("tests/route-files/valid").then(routes => {
         try {
-          should.equal(routes.length, 7);
+          should.equal(routes.length, 9);
 
           should.equal(routes[0].method, "get")
           should.equal(routes[0].path, "/less")
@@ -220,9 +220,19 @@ describe("parseFile", function () {
           should.not.exist(routes[5].target)
 
           should.equal(routes[6].method, "use")
-          should.not.exist(routes[6].path);          
+          should.not.exist(routes[6].path);
           should.equal(routes[6].controller, process.cwd() + "/tests/controllers/more")
           should.equal(routes[6].target, "evenMore");
+
+          should.equal(routes[7].method, "param")
+          should.equal(routes[7].path, "id");
+          should.equal(routes[7].controller, process.cwd() + "/tests/controllers/less")
+          should.not.exist(routes[7].target)
+
+          should.equal(routes[8].method, "param")
+          should.equal(routes[8].path, "id");
+          should.equal(routes[8].controller, process.cwd() + "/tests/controllers/more")
+          should.equal(routes[8].target, "evenMore");
 
         } catch (err) {
           done(err);

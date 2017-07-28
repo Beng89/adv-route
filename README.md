@@ -162,6 +162,7 @@ ___
 ### Support Express methods;
 
 - USE
+- PARAM
 
 ### Express route params are preserved
 - ie. /:param/test will have access to req.params.test 
@@ -256,7 +257,11 @@ advRoute.createExpressRouter("routes/api", function(err, router) {
 # description: route file for complex-example.com web pages
 
 # middleware with path
-use /             middleware/session.ensure
+use     /           middleware/session.ensure
+
+# route with param
+param   id          controllers/test.id
+get     /tests/:id  controllers/test.get
 
 # middleware without path
 use middleware/session.ensure

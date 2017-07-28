@@ -59,6 +59,13 @@ export class Route {
           router.use(controller);
         }
         break;
+      case "param":
+        if (typeof this.path === "string") {
+          router.param(this.path, controller);
+        } else {
+          router.param(controller);
+        }
+        break;
       default:
         throw new Error("unsupported method " + this.method)
     }
