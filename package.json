@@ -3,10 +3,10 @@
   "version": "2.0.2",
   "description": "An easy to use module for separating express application, routing and server logic.",
   "keywords": [
-      "express",
-      "routes",
-      "controller",
-      "definition"
+    "express",
+    "routes",
+    "controller",
+    "definition"
   ],
   "main": "bin/index.js",
   "scripts": {
