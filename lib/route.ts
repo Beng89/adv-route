@@ -7,35 +7,37 @@ export class Route {
     this.controller = controller
     this.target = target
   }
-  
+
   method: string
   path: string
   controller: string
   target: string
-  
+
   mount(router: Router) {
     var controller = require(this.controller)
-    
+
     // if there is a target method, check to see if it exists and replace the original controller with it
-    if(this.target) {
-      if(!controller.hasOwnProperty(this.target)) {
+    if (this.target) {
+      if (!controller.hasOwnProperty(this.target)) {
         throw new Error("target function " + this.target + " does not exist on controller " + this.controller)
       }
       controller = controller[this.target]
     }
-    
+
     // if controller is not a function, throw an error
-    if(typeof(controller) != "function") {
+    if (typeof (controller) != "function") {
       throw new Error("controllers must resolve to a function")
     }
-    
+
+    process.stdout.write(`(${this.method}) (${this.path}) (${this.controller}) (${this.target}) \n`);
+
     // use a switch (rather than checking for the method) to prevent 
     // unwanted method calls (ie. router.route(this.path, controller) would not be good...)
-    switch(this.method.toLowerCase()) {
+    switch (this.method.toLowerCase()) {
       case "all":
         router.all(this.path, controller)
         break
-      case "get": 
+      case "get":
         router.get(this.path, controller)
         break
       case "put":
@@ -50,7 +52,14 @@ export class Route {
       case "patch":
         router.patch(this.path, controller)
         break
-      default: 
+      case "use":
+        if (typeof this.path === "string") {
+          router.use(this.path, controller);
+        } else {
+          router.use(controller);
+        }
+        break;
+      default:
         throw new Error("unsupported method " + this.method)
     }
   }

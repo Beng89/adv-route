@@ -26,8 +26,30 @@ import * as pathModule from "path";
 // DELETE /index.html           pages/homepage
 
 const Parsers = [
+  // USE
+  [/^use\s+(?:(\/[^\s]*)\s+)?([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/, (match: RegExpMatchArray) => {
+    console.error(match);
+    const method = "use";
+
+    // Path is optional
+    let path = match[1];
+
+    // Controller can be relative or absolute
+    let controller = match[2];
+    if (controller[0] === "@") {
+      controller = controller.substr(1);
+    } else {
+      controller = pathModule.join(process.cwd(), controller);
+    }
+
+    // Target is optional
+    let target = match[3];
+
+    return new Route(method, path, controller, target);
+  }],
+  // Standard HTTP Methods
   // https://regex101.com/r/5ddAJF/8
-  [/^(all|get|post|put|delete|patch|head)\s+(\/[^\s]+)\s+([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/i, (match: RegExpMatchArray) => {
+  [/^(all|get|post|put|delete|patch|head)\s+(\/[^\s]*)\s+([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/i, (match: RegExpMatchArray) => {
     const method = match[1];
     const path = match[2];
 
@@ -40,12 +62,7 @@ const Parsers = [
     }
 
     // Target is optional
-    let target = null;
-    if (match.length > 4) {
-      target = match[4];
-    }
-
-    const splitController = match[2].split(".");
+    let target = match[4];
 
     return new Route(method, path, controller, target);
   }]

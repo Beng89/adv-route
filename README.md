@@ -159,6 +159,10 @@ ___
 - PATCH
 - HEAD
 
+### Support Express methods;
+
+- USE
+
 ### Express route params are preserved
 - ie. /:param/test will have access to req.params.test 
 
@@ -251,6 +255,12 @@ advRoute.createExpressRouter("routes/api", function(err, router) {
 # file: routes/pages
 # description: route file for complex-example.com web pages
 
+# middleware with path
+use /             middleware/session.ensure
+
+# middleware without path
+use middleware/session.ensure
+
 # requests made to /public/** will be treated as static asset requests
 get   /public/**         controllers/public
 
@@ -297,7 +307,7 @@ ___
 - allow paths to use regular expressions
 - watch controller files and reload routes
 - a synchronous method for loading route files
-- Other Ideas? Open an issue!
+- Other Ideas? Create an issue!
 
 ___
 

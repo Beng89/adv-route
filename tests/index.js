@@ -186,22 +186,48 @@ describe("parseFile", function () {
   it("should correctly parse a file if it exists", function (done) {
     should.not.throw(() => {
       parseFile("tests/route-files/valid").then(routes => {
-        should.equal(routes.length == 3, true)
+        try {
+          should.equal(routes.length, 7);
 
-        should.equal(routes[0].method, "get")
-        should.equal(routes[0].path, "/less")
-        should.equal(routes[0].controller, process.cwd() + "/tests/controllers/less")
-        should.not.exist(routes[0].target)
+          should.equal(routes[0].method, "get")
+          should.equal(routes[0].path, "/less")
+          should.equal(routes[0].controller, process.cwd() + "/tests/controllers/less")
+          should.not.exist(routes[0].target)
 
-        should.equal(routes[1].method, "post")
-        should.equal(routes[1].path, "/more")
-        should.equal(routes[1].controller, process.cwd() + "/tests/controllers/more")
-        should.equal(routes[1].target, "evenMore")
+          should.equal(routes[1].method, "post")
+          should.equal(routes[1].path, "/more")
+          should.equal(routes[1].controller, process.cwd() + "/tests/controllers/more")
+          should.equal(routes[1].target, "evenMore")
 
-        should.equal(routes[2].method, "delete")
-        should.equal(routes[2].path, "/enough")
-        should.equal(routes[2].controller, process.cwd() + "/tests/controllers/enough")
-        should.not.exist(routes[2].target);
+          should.equal(routes[2].method, "delete")
+          should.equal(routes[2].path, "/enough")
+          should.equal(routes[2].controller, process.cwd() + "/tests/controllers/enough")
+          should.not.exist(routes[2].target);
+
+          should.equal(routes[3].method, "use")
+          should.equal(routes[3].path, "/user")
+          should.equal(routes[3].controller, process.cwd() + "/tests/controllers/less")
+          should.not.exist(routes[3].target)
+
+          should.equal(routes[4].method, "use")
+          should.equal(routes[4].path, "/user2")
+          should.equal(routes[4].controller, process.cwd() + "/tests/controllers/more")
+          should.equal(routes[4].target, "evenMore");
+
+          should.equal(routes[5].method, "use")
+          should.not.exist(routes[5].path);
+          should.equal(routes[5].controller, process.cwd() + "/tests/controllers/less")
+          should.not.exist(routes[5].target)
+
+          should.equal(routes[6].method, "use")
+          should.not.exist(routes[6].path);          
+          should.equal(routes[6].controller, process.cwd() + "/tests/controllers/more")
+          should.equal(routes[6].target, "evenMore");
+
+        } catch (err) {
+          done(err);
+          return;
+        }
 
         done()
       }).catch(error => {
@@ -216,10 +242,13 @@ describe("createExpressApp", function () {
 
   it("should create an express app", function (done) {
     createExpressApp("tests/route-files/valid", (err, app) => {
-      should.not.exist(err)
-      should.exist(app)
+      if (err) {
+        done(err);
+        return;
+      }
 
-      done()
+      should.exist(app)
+      done();
     })
   })
 })
@@ -229,7 +258,11 @@ describe("createExpressRouter", function () {
 
   it("should create an express router", function (done) {
     createExpressRouter("tests/route-files/valid", (err, router) => {
-      should.not.exist(err)
+      if (err) {
+        done(err);
+        return;
+      }
+
       should.exist(router)
       done()
     })
@@ -244,7 +277,7 @@ describe("createExpressAppAsync", function () {
       should.exist(app)
       done()
     }).catch(error => {
-      should.not.exist(error)
+      done(error);
     })
   })
 })
@@ -257,7 +290,7 @@ describe("createExpressRouterAsync", function () {
       should.exist(router)
       done()
     }).catch(error => {
-      should.not.exist(error)
+      done(error);
     })
   })
 })
