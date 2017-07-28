@@ -28,7 +28,6 @@ import * as pathModule from "path";
 const Parsers = [
   // USE
   [/^use\s+(?:(\/[^\s]*)\s+)?([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/, (match: RegExpMatchArray) => {
-    console.error(match);
     const method = "use";
 
     // Path is optional
@@ -49,7 +48,6 @@ const Parsers = [
   }],
   // PARAM
   [/^param\s+(\w+)\s+([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/, (match: RegExpMatchArray) => {
-    console.error(match);
     const method = "param";
 
     // Path is optional

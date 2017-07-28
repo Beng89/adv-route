@@ -29,8 +29,6 @@ export class Route {
       throw new Error("controllers must resolve to a function")
     }
 
-    process.stdout.write(`(${this.method}) (${this.path}) (${this.controller}) (${this.target}) \n`);
-
     // use a switch (rather than checking for the method) to prevent 
     // unwanted method calls (ie. router.route(this.path, controller) would not be good...)
     switch (this.method.toLowerCase()) {
