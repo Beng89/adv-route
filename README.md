@@ -291,12 +291,6 @@ post  login     controllers/api/v1/login                # handle login requests;
 post  logout    controllers/api/v1/logout               # handle logout requests; returns 200 for success or 401 if the user is not logged in
 ```
 
-### Application Logic
-
-for the sake of simplicity, the logic for the controllers is not shown but if
-this were a real site you would expect to find said logic at their respective
-locations.
-
 ___
 
 ## Future Ideas
@@ -304,6 +298,11 @@ ___
 - watch controller files and reload routes
 - a synchronous method for loading route files
 - Other Ideas? Open an issue!
+
+___
+
+## Known changes
+- parse-file does not report the line number for malformed routes
 
 ___
 
