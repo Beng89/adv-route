@@ -1,3 +1,11 @@
 get  /less    tests/controllers/less 
 post  /more    tests/controllers/more.evenMore
 delete  /enough  tests/controllers/enough
+
+use /user tests/controllers/less
+use /user2 tests/controllers/more.evenMore
+use tests/controllers/less
+use tests/controllers/more.evenMore
+
+param id tests/controllers/less
+param id tests/controllers/more.evenMore

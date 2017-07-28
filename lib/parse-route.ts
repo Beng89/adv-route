@@ -1,5 +1,5 @@
 import { Route } from "./route"
-
+import * as pathModule from "path";
 // ************* //
 // ** formats ** //
 // ************* //
@@ -22,20 +22,88 @@ import { Route } from "./route"
 //
 // GET /index.html              pages/homepage
 // => router.get("/index.html", require("pages/homepage))
+//
+// DELETE /index.html           pages/homepage
+
+const Parsers = [
+  // USE
+  [/^use\s+(?:(\/[^\s]*)\s+)?([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/, (match: RegExpMatchArray) => {
+    const method = "use";
+
+    // Path is optional
+    let path = match[1];
+
+    // Controller can be relative or absolute
+    let controller = match[2];
+    if (controller[0] === "@") {
+      controller = controller.substr(1);
+    } else {
+      controller = pathModule.join(process.cwd(), controller);
+    }
+
+    // Target is optional
+    let target = match[3];
+
+    return new Route(method, path, controller, target);
+  }],
+  // PARAM
+  [/^param\s+(\w+)\s+([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/, (match: RegExpMatchArray) => {
+    const method = "param";
+
+    // Path is optional
+    let path = match[1];
+
+    // Controller can be relative or absolute
+    let controller = match[2];
+    if (controller[0] === "@") {
+      controller = controller.substr(1);
+    } else {
+      controller = pathModule.join(process.cwd(), controller);
+    }
+
+    // Target is optional
+    let target = match[3];
+
+    return new Route(method, path, controller, target);
+  }],
+  // Standard HTTP Methods
+  // https://regex101.com/r/5ddAJF/8
+  [/^(all|get|post|put|delete|patch|head)\s+(\/[^\s]*)\s+([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/i, (match: RegExpMatchArray) => {
+    const method = match[1];
+    const path = match[2];
+
+    // Controller can be relative or absolute
+    let controller = match[3];
+    if (controller[0] === "@") {
+      controller = controller.substr(1);
+    } else {
+      controller = pathModule.join(process.cwd(), controller);
+    }
+
+    // Target is optional
+    let target = match[4];
+
+    return new Route(method, path, controller, target);
+  }]
+] as Array<[RegExp, (match: RegExpMatchArray) => Route]>;
 
 export function parseRoute(str: string) {
   var tokens = str.split(" ")
 
-  if(tokens.length != 3) {
-    // if there are less than 3 tokens throw the exception automatically
-    // if there are more than 3 tokens, check to see if it is a trailing comment
-    if(tokens.length < 3 || tokens[3] != "#") {
-      throw new Error("incorrect number of tokens " + tokens.length + "; routes require a method, a path and a controller")
-    }  
+  let route = null;
+  for (let i = 0; i < Parsers.length; i++) {
+    const parser = Parsers[i];
+
+    const match = str.match(parser[0]);
+    if (Array.isArray(match)) {
+      route = parser[1](match);
+      break;
+    }
   }
-  
-  var controller = tokens[2].split(".")
-  
-  // controller paths that start with @ will ne interpreted as literals, otherwise the cwd is appended to it
-  return new Route(tokens[0], tokens[1], controller[0][0] == "@" ? controller[0].substr(1) : process.cwd() + "/" + controller[0], controller.length > 1 ? controller[1] : null)
+
+  if (route instanceof Route) {
+    return route;
+  } else {
+    return new Route(null, null, null, null);
+  }
 }

@@ -159,6 +159,11 @@ ___
 - PATCH
 - HEAD
 
+### Support Express methods;
+
+- USE
+- PARAM
+
 ### Express route params are preserved
 - ie. /:param/test will have access to req.params.test 
 
@@ -251,6 +256,16 @@ advRoute.createExpressRouter("routes/api", function(err, router) {
 # file: routes/pages
 # description: route file for complex-example.com web pages
 
+# middleware with path
+use     /           middleware/session.ensure
+
+# route with param
+param   id          controllers/test.id
+get     /tests/:id  controllers/test.get
+
+# middleware without path
+use middleware/session.ensure
+
 # requests made to /public/** will be treated as static asset requests
 get   /public/**         controllers/public
 
@@ -291,19 +306,18 @@ post  login     controllers/api/v1/login                # handle login requests;
 post  logout    controllers/api/v1/logout               # handle logout requests; returns 200 for success or 401 if the user is not logged in
 ```
 
-### Application Logic
-
-for the sake of simplicity, the logic for the controllers is not shown but if
-this were a real site you would expect to find said logic at their respective
-locations.
-
 ___
 
 ## Future Ideas
 - allow paths to use regular expressions
 - watch controller files and reload routes
 - a synchronous method for loading route files
-- Other Ideas? Open an issue!
+- Other Ideas? Create an issue!
+
+___
+
+## Known changes
+- parse-file does not report the line number for malformed routes
 
 ___
 
