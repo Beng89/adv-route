@@ -16,7 +16,7 @@
     "start": "node bin/index.js",
     "pretest": "npm run build",
     "test": "mocha tests/index.js",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "repository": {
     "type:": "git",

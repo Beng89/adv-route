@@ -18,7 +18,7 @@ export function createExpressApp(path: string, cb: Function): void {
     cb(error, null)
   })
 }
-export async function createExpressAppAsync(path: string): Promise<express.Server> {
+export async function createExpressAppAsync(path: string): Promise<express.Express> {
   var app = express()
   
   var routes = await parseFile(path)
