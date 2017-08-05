@@ -8,7 +8,7 @@
     "controller",
     "definition"
   ],
-  "main": "bin/index.js",
+  "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
