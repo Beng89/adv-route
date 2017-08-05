@@ -1,12 +1,9 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es6",
-    "outDir": "bin",
-    "declaration": true
+    "target": "es6"
   },
   "exclude": [
-    "node_modules",
-    "bin"
+    "node_modules"
   ]
 }

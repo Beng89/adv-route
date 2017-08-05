@@ -9,6 +9,7 @@
     "definition"
   ],
   "main": "bin/index.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
