@@ -42,10 +42,6 @@ export function parseFile(path: string) {
 
           if (route instanceof Route) {
             routes.push(route);
-          } else {
-            const err = new Error("The route was not matched to a valid route.");
-            err.name = "ERR_UNMATCHED_ROUTE";
-            throw err;
           }
         }
         catch (err) {

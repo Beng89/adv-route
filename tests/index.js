@@ -6,17 +6,17 @@ var module = require("..")
 describe("parseRoute", function () {
   var parseRoute = require("..").parseRoute
 
-  it("should not throw an error when a route does not match any known parsers", function (done) {
-    should.not.throw(parseRoute.bind(null, "Failed to parse"));
+  it("should throw an error when a route does not match any known parsers", function (done) {
+    should.throw(parseRoute.bind(null, "Failed to parse"));
     done();
   });
-  it("should not throw an exception when there are not enough tokens", function (done) {
-    should.not.throw(parseRoute.bind(null, "only two"))
+  it("should throw an exception when there are not enough tokens", function (done) {
+    should.throw(parseRoute.bind(null, "only two"))
     done()
   })
 
-  it("should not throw an exception when there are too many tokens", function (done) {
-    should.not.throw(parseRoute.bind(null, "get /myroute /test/lots.tokens see what happens when there are too many tokens?"));
+  it("should throw an exception when there are too many tokens", function (done) {
+    should.throw(parseRoute.bind(null, "get /myroute /test/lots.tokens see what happens when there are too many tokens?"));
     done()
   })
 
@@ -99,13 +99,6 @@ describe("route.mount", function () {
   it("should throw an exception if the target controller module.function is not a function", function (done) {
     var route = parseRoute("get /route tests/controllers/invalid/module-target-not-a-function.test")
     should.throw(route.mount.bind(route, router), "controllers must resolve to a function")
-    done()
-  })
-
-  it("should throw an exception when an unsupported method is provided", function (done) {
-    // gremlin is not a valid REST method so mounting should fail
-    var route = parseRoute("gremlin /route tests/controllers/valid/function.test")
-    should.throw(route.mount.bind(route, router))
     done()
   })
 

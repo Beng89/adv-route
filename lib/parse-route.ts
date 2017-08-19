@@ -104,6 +104,8 @@ export function parseRoute(str: string) {
   if (route instanceof Route) {
     return route;
   } else {
-    return null;
+    const err = new Error("The route was not matched to a valid route.");
+    err.name = "ERR_UNMATCHED_ROUTE";
+    throw err;
   }
 }
