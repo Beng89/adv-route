@@ -11,7 +11,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p .",
     "prestart": "npm run build",
     "start": "node bin/index.js",
     "pretest": "npm run build",
