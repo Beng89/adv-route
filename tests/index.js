@@ -1,10 +1,10 @@
 var mocha = require("mocha")
 var should = require("chai").should()
 var express = require("express")
-var module = require("../bin")
+var module = require("..")
 
 describe("parseRoute", function () {
-  var parseRoute = require("../bin/lib/parse-route").parseRoute
+  var parseRoute = require("..").parseRoute
 
   it("should not throw an error when a route does not match any known parsers", function (done) {
     should.not.throw(parseRoute.bind(null, "Failed to parse"));
@@ -74,7 +74,7 @@ describe("parseRoute", function () {
 })
 
 describe("route.mount", function () {
-  var parseRoute = require("../bin/lib/parse-route").parseRoute
+  var parseRoute = require("..").parseRoute
   var router = express.Router()
 
   it("should throw an exception while mounting if the controller cannot be resolved", function (done) {
@@ -123,7 +123,7 @@ describe("route.mount", function () {
 })
 
 describe("parseFile", function () {
-  var parseFile = require("../bin/lib/parse-file").parseFile
+  var parseFile = require("..").parseFile
   it("should reject the promise when the file does not exist", function (done) {
     should.not.throw(() => {
       parseFile("bad_file").then(routes => {
@@ -248,7 +248,7 @@ describe("parseFile", function () {
 })
 
 describe("createExpressApp", function () {
-  var createExpressApp = require("../bin/lib/create-express-app").createExpressApp
+  var createExpressApp = require("..").createExpressApp
 
   it("should create an express app", function (done) {
     createExpressApp("tests/route-files/valid", (err, app) => {
@@ -264,7 +264,7 @@ describe("createExpressApp", function () {
 })
 
 describe("createExpressRouter", function () {
-  var createExpressRouter = require("../bin/lib/create-express-router").createExpressRouter
+  var createExpressRouter = require("..").createExpressRouter
 
   it("should create an express router", function (done) {
     createExpressRouter("tests/route-files/valid", (err, router) => {
@@ -280,7 +280,7 @@ describe("createExpressRouter", function () {
 })
 
 describe("createExpressAppAsync", function () {
-  var createExpressAppAsync = require("../bin/lib/create-express-app").createExpressAppAsync
+  var createExpressAppAsync = require("..").createExpressAppAsync
 
   it("should create an express app", function (done) {
     createExpressAppAsync("tests/route-files/valid").then(app => {
@@ -293,7 +293,7 @@ describe("createExpressAppAsync", function () {
 })
 
 describe("createExpressRouterAsync", function () {
-  var createExpressRouterAsync = require("../bin/lib/create-express-router").createExpressRouterAsync
+  var createExpressRouterAsync = require("..").createExpressRouterAsync
 
   it("should create an express router", function (done) {
     createExpressRouterAsync("tests/route-files/valid").then(router => {

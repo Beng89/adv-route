@@ -38,7 +38,15 @@ export function parseFile(path: string) {
         }
 
         try {
-          routes.push(parseRoute(line))
+          const route = parseRoute(line);
+
+          if (route instanceof Route) {
+            routes.push(route);
+          } else {
+            const err = new Error("The route was not matched to a valid route.");
+            err.name = "ERR_UNMATCHED_ROUTE";
+            throw err;
+          }
         }
         catch (err) {
           err.message = "line " + (i + 1) + ": " + err.message

@@ -27,7 +27,7 @@ import * as pathModule from "path";
 
 const Parsers = [
   // USE
-  [/^use\s+(?:(\/[^\s]*)\s+)?([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/, (match: RegExpMatchArray) => {
+  [/^use\s+(?:(\/[^\s]*)\s+)?([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/i, (match: RegExpMatchArray) => {
     const method = "use";
 
     // Path is optional
@@ -47,7 +47,7 @@ const Parsers = [
     return new Route(method, path, controller, target);
   }],
   // PARAM
-  [/^param\s+(\w+)\s+([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/, (match: RegExpMatchArray) => {
+  [/^param\s+(\w+)\s+([^\s.]+)[.]?([^\s]+)??\s*(?:[#].*)?$/i, (match: RegExpMatchArray) => {
     const method = "param";
 
     // Path is optional
@@ -104,6 +104,6 @@ export function parseRoute(str: string) {
   if (route instanceof Route) {
     return route;
   } else {
-    return new Route(null, null, null, null);
+    return null;
   }
 }
